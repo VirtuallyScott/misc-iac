@@ -35,7 +35,7 @@ import_resource "okta_resource_type" "$OKTA_ID" "terraform_resource.address"
 
 ## Security Notes
 - Never commit sensitive values to version control
-- Use .gitignore to exclude config.sh and Terraform state files
+- The .env file is automatically excluded via .gitignore
 - Rotate API tokens regularly
 
 ## Next Steps

@@ -5,8 +5,8 @@ set -eo pipefail
 shopt -s inherit_errexit
 
 # Configuration
-TERRAFORM_CMD="tofu"
-CONFIG_FILE="${CONFIG_FILE:-./config.sh}"
+CONFIG_FILE="${CONFIG_FILE:-.env}"
+TERRAFORM_CMD=""
 
 # Load configuration with validation
 load_config() {
@@ -14,10 +14,16 @@ load_config() {
         echo "Error: Config file $CONFIG_FILE not found" >&2
         exit 1
     fi
+    # Load .env file
+    set -o allexport
     source "$CONFIG_FILE" || {
         echo "Error: Failed to load config file $CONFIG_FILE" >&2
         exit 1
     }
+    set +o allexport
+    
+    # Set default TERRAFORM_CMD if not specified
+    TERRAFORM_CMD="${TERRAFORM_CMD:-terraform}"
 
     # Validate required variables
     local required_vars=("OKTA_ORG_NAME" "OKTA_API_TOKEN" "OKTA_BASE_URL")
