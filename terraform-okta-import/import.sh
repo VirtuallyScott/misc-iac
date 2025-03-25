@@ -5,7 +5,8 @@ set -eo pipefail
 shopt -s inherit_errexit
 
 # Configuration
-CONFIG_FILE="${CONFIG_FILE:-.env}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${CONFIG_FILE:-$SCRIPT_DIR/.env}"
 TERRAFORM_CMD=""
 
 # Load configuration with validation
